@@ -15,6 +15,7 @@ using System.Text.RegularExpressions;
 
 using org.apache.pdfbox.pdmodel;
 using org.apache.pdfbox.util;
+using System.Collections.Generic;
 
 namespace invChecker
 {
@@ -97,6 +98,28 @@ namespace invChecker
 
                 Console.WriteLine("Current: " + matchCurrent.Count);
                 Console.WriteLine("List: " + matchList.Count);
+
+                List<string> updatedList = new List<string>();
+
+                for (int i = 0; i < matchList.Count; i++)
+                {
+                    if (matchList[i].Value == "až" && i > 0 && i < matchList.Count - 1)
+                    {
+                        int before = int.Parse(matchList[i - 1].Value);
+                        int after = int.Parse(matchList[i + 1].Value);
+
+                        for (int j = before + 1; j < after; j++)
+                        {
+                            updatedList.Add(j.ToString());
+                            Console.WriteLine(">> " + j.ToString());
+                        }
+                    }
+                    else
+                    {
+                        updatedList.Add(matchList[i].Value);
+                        Console.WriteLine("   " + matchList[i]);
+                    }
+                }
 
                 // todo
             }
