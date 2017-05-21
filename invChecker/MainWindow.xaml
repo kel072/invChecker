@@ -1,0 +1,39 @@
+﻿<Window x:Class="invChecker.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:invChecker"
+        xmlns:props="clr-namespace:invChecker.Properties"
+        mc:Ignorable="d"
+        SnapsToDevicePixels="True"
+        x:Name="mainWindow"
+        Title="Invoices checker"  ResizeMode="NoResize" Width="492" Height="190" Closing="mainWindow_Closing" Icon="Resources/sc_logo_JwO_icon.ico" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="10"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Label x:Name="label_Copy" Grid.Column="1" Grid.Row="1" Content="PDF Kontrola číselných řad" HorizontalAlignment="Left"/>
+        <Label x:Name="label_Copy1" Grid.Column="1" Grid.Row="3" Content="PDF položek prodeje:" HorizontalAlignment="Left"/>
+
+        <Button x:Name="openInvList" Grid.Column="2" Grid.Row="2" Content="..." HorizontalAlignment="Left" VerticalAlignment="Top" Width="26" Click="openInvList_Click"/>
+        <Button x:Name="openCurrentInv" Grid.Column="2" Grid.Row="4" Content="..." HorizontalAlignment="Left" VerticalAlignment="Top" Width="26" Click="openCurrentInv_Click"/>
+
+        <TextBox x:Name="invListPath" Grid.Column="1" Grid.Row="2" Height="23" TextWrapping="Wrap" Text="{Binding Source={x:Static props:Settings.Default}, Path=invListPath, Mode=TwoWay}" VerticalAlignment="Top" IsReadOnly="True"/>
+        <TextBox x:Name="invCurrentPath" Grid.Column="1" Grid.Row="4"  Height="23" TextWrapping="Wrap" Text="{Binding Source={x:Static props:Settings.Default}, Path=invCurrentPath, Mode=TwoWay}" VerticalAlignment="Top" IsReadOnly="True"/>
+
+        <Button x:Name="check" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="2" Content="Check" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="145" Click="check_Click"/>
+    </Grid>
+</Window>
