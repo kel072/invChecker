@@ -16,14 +16,18 @@ using System.Text.RegularExpressions;
 using org.apache.pdfbox.pdmodel;
 using org.apache.pdfbox.util;
 using System.Collections.Generic;
+using System.Windows.Input;
 
 namespace invChecker
 {
     public partial class MainWindow : Window
     {
+        private double defHeight;
+
         public MainWindow()
         {
             InitializeComponent();
+            defHeight = this.Height;
         }
 
         private void mainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -88,6 +92,11 @@ namespace invChecker
                  return data;
              };
 
+            Mouse.OverrideCursor = Cursors.Wait;
+            this.lbMissing.ItemsSource = null;
+            this.lbMissing.Items.Clear();
+            this.Height = this.defHeight;
+
             dataList = load(Properties.Settings.Default.invListPath);
             dataCurrent = load(Properties.Settings.Default.invCurrentPath);
 
@@ -144,7 +153,7 @@ namespace invChecker
             {
                 MessageBox.Show("Can not read data from PDF file or file is empty.");
             }
-
+            Mouse.OverrideCursor = null;
         }
     }
 }
