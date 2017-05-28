@@ -101,6 +101,7 @@ namespace invChecker
 
                 List<string> updatedList = new List<string>();
 
+                // expand invoices list
                 for (int i = 0; i < matchList.Count; i++)
                 {
                     if (matchList[i].Value == "až" && i > 0 && i < matchList.Count - 1)
@@ -111,17 +112,33 @@ namespace invChecker
                         for (int j = before + 1; j < after; j++)
                         {
                             updatedList.Add(j.ToString());
-                            Console.WriteLine(">> " + j.ToString());
                         }
                     }
                     else
                     {
                         updatedList.Add(matchList[i].Value);
-                        Console.WriteLine("   " + matchList[i]);
                     }
                 }
 
-                // todo
+                // check
+                List<string> compResult = new List<string>();
+                foreach (var item in matchCurrent)
+                {
+                    string tmp = item.ToString();
+                    string upItem = tmp.Replace("f", "").Replace("a", "").Replace("F", "").Replace("A", "").Replace(".", "");
+                    if (!updatedList.Contains(upItem))
+                    {
+                        compResult.Add(upItem);
+                    }
+                }
+
+                if(compResult.Count > 0)
+                {
+                    compResult.Sort();
+                    this.lbMissing.ItemsSource = compResult;
+                    this.Height = this.Height + 100;
+                    this.lbMissing.Visibility = Visibility.Visible;
+                }
             }
             else
             {

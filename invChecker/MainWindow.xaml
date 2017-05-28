@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         SnapsToDevicePixels="True"
         x:Name="mainWindow"
-        Title="Invoices checker"  ResizeMode="NoResize" Width="492" Height="190" Closing="mainWindow_Closing" Icon="Resources/sc_logo_JwO_icon.ico" WindowStartupLocation="CenterScreen">
+        Title="Invoices checker" Width="492" Height="190" Closing="mainWindow_Closing" Icon="Resources/sc_logo_JwO_icon.ico" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
@@ -23,6 +23,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="100"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Label x:Name="label_Copy" Grid.Column="1" Grid.Row="1" Content="PDF Kontrola číselných řad" HorizontalAlignment="Left"/>
@@ -35,5 +36,7 @@
         <TextBox x:Name="invCurrentPath" Grid.Column="1" Grid.Row="4"  Height="23" TextWrapping="Wrap" Text="{Binding Source={x:Static props:Settings.Default}, Path=invCurrentPath, Mode=TwoWay}" VerticalAlignment="Top" IsReadOnly="True"/>
 
         <Button x:Name="check" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="2" Content="Check" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="145" Click="check_Click"/>
+        
+        <ListBox x:Name="lbMissing" Grid.Column="1" Grid.Row="6" Visibility="Collapsed"/>
     </Grid>
 </Window>
