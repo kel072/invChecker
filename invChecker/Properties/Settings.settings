@@ -8,5 +8,8 @@
     <Setting Name="invCurrentPath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="ruleRegex" Type="System.String" Scope="User">
+      <Value Profile="(Default)">(?:17|18)35\d{4}|až</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

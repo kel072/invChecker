@@ -38,6 +38,7 @@ namespace invChecker
         private void openInvList_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
+            ofd.Title = label_Copy.Content.ToString();
             ofd.Filter = "Pdf files (.pdf)|*.pdf";
             ofd.Multiselect = false;
             if (System.IO.File.Exists(this.invListPath.Text))
@@ -54,6 +55,7 @@ namespace invChecker
         private void openCurrentInv_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
+            ofd.Title = label_Copy1.Content.ToString();
             ofd.Filter = "Pdf files (.pdf)|*.pdf";
             ofd.Multiselect = false;
             if (System.IO.File.Exists(this.invCurrentPath.Text))
@@ -103,7 +105,7 @@ namespace invChecker
             if (dataList != string.Empty && dataCurrent != string.Empty)
             {
                 MatchCollection matchCurrent = Regex.Matches(dataCurrent, "FA\\d{8}", RegexOptions.IgnoreCase);
-                MatchCollection matchList = Regex.Matches(dataList, "173\\d{5}|až", RegexOptions.IgnoreCase);
+                MatchCollection matchList = Regex.Matches(dataList, Properties.Settings.Default.ruleRegex, RegexOptions.IgnoreCase);
 
                 Console.WriteLine("Current: " + matchCurrent.Count);
                 Console.WriteLine("List: " + matchList.Count);
@@ -111,9 +113,10 @@ namespace invChecker
                 List<string> updatedList = new List<string>();
 
                 // expand invoices list
+                bool numberStarted = false;
                 for (int i = 0; i < matchList.Count; i++)
                 {
-                    if (matchList[i].Value == "až" && i > 0 && i < matchList.Count - 1)
+                    if (numberStarted && matchList[i].Value == "až" && i > 0 && i < matchList.Count - 1)
                     {
                         int before = int.Parse(matchList[i - 1].Value);
                         int after = int.Parse(matchList[i + 1].Value);
@@ -125,9 +128,15 @@ namespace invChecker
                     }
                     else
                     {
-                        updatedList.Add(matchList[i].Value);
+                        if (matchList[i].Value != "až")
+                        {
+                            numberStarted = true;
+                            updatedList.Add(matchList[i].Value);
+                        }
                     }
                 }
+
+                Console.WriteLine("Expanded missing numbers: " + String.Join("\n",updatedList.ToArray()));
 
                 // check
                 List<string> compResult = new List<string>();
@@ -145,8 +154,12 @@ namespace invChecker
                 {
                     compResult.Sort();
                     this.lbMissing.ItemsSource = compResult;
-                    this.Height = this.Height + 100;
+                    this.Height = this.Height + 150;
+                    this.lbCount.Content = compResult.Count;
+
                     this.lbMissing.Visibility = Visibility.Visible;
+                    this.lbHint.Visibility = Visibility.Visible;
+                    this.lbCount.Visibility = Visibility.Visible;
                 }
             }
             else
